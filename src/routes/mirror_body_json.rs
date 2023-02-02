@@ -9,4 +9,3 @@ pub struct MirrorJson {
 pub async fn mirror_body_json(Json(body): Json<MirrorJson>) -> String {
     body.message
 }
-
