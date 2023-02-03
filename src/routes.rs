@@ -8,6 +8,10 @@ mod path_variables;
 mod query_params;
 mod read_middleware_custom_headers;
 mod set_middleware_custom_headers;
+mod always_errors;
+mod returns_201;
+mod get_json;
+mod tower_duration_middleware;
 
 use axum::http::Method;
 use axum::{middleware, routing::get, routing::post, Extension, Router};
@@ -22,6 +26,9 @@ use query_params::query_params;
 use read_middleware_custom_headers::read_middleware_custom_headers;
 use set_middleware_custom_headers::set_middleware_custom_headers;
 use tower_http::cors::{Any, CorsLayer};
+use always_errors::always_errors;
+use returns_201::returns_201;
+use get_json::get_json;
 
 #[derive(Clone)]
 pub struct SharedData {
@@ -52,6 +59,9 @@ pub fn create_router() -> Router {
         .route("/mirror_user_agent", get(mirror_user_agent))
         .route("/mirror_custom_header", get(mirror_custom_header))
         .route("/middleware_message", get(middleware_message))
+        .route("/always_errors", get(always_errors))
+        .route("/returns_201", post(returns_201))
+        .route("/get_json", get(get_json))
         .layer(cors)
         .layer(Extension(shared_data))
 }
